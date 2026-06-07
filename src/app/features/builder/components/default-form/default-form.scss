@@ -1,0 +1,38 @@
+:host {
+  display: block;
+  margin: 0 auto;
+  max-width: 600px;
+  width: 100%;
+
+  .form {
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+
+      button {
+      }
+    }
+
+    textarea {
+      width: 100%;
+    }
+
+    &-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+
+      .flex {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        app-input {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

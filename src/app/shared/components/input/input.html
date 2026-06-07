@@ -1,0 +1,14 @@
+<input
+  type="text"
+  pInputText
+  [ngModel]="value()"
+  (ngModelChange)="onValueChange($event)"
+  [placeholder]="placeholder()"
+  [invalid]="!!errorText()"
+/>
+
+@if (errorText()) {
+  <p-message severity="error" size="small" variant="simple">
+    {{ errorText() }}
+  </p-message>
+}

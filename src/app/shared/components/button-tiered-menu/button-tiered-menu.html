@@ -1,0 +1,8 @@
+<p-button
+  icon="pi pi-ellipsis-v"
+  severity="secondary"
+  (click)="menu.toggle($event)"
+  [rounded]="true"
+  [text]="true"
+/>
+<p-tieredmenu #menu [model]="items()" [popup]="true"></p-tieredmenu>

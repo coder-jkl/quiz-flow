@@ -1,0 +1,47 @@
+<form class="form" title="Test" [formGroup]="fg">
+  <div class="form-header">
+    <app-input formControlName="title" placeholder="Title"></app-input>
+    <app-button-tiered-menu [items]="buttonIconItems"></app-button-tiered-menu>
+  </div>
+
+  <div>
+    <textarea
+      rows="5"
+      cols="30"
+      pTextarea
+      formControlName="question"
+      autoResize="true"
+      placeholder="Question"
+    ></textarea>
+  </div>
+
+  <div class="form-fields" formArrayName="fields">
+    @for (field of fields.controls; track $index) {
+      @let fieldError = field.errors | inputError: field.invalid && (field.dirty || field.touched);
+
+      <div class="flex">
+        <app-input [formControl]="field" [errorText]="fieldError"></app-input>
+
+        @if (isChange()) {
+          <p-button
+            icon="pi pi-trash"
+            severity="secondary"
+            variant="text"
+            (click)="onDeleteField($index)"
+          ></p-button>
+        }
+      </div>
+    }
+
+    <div>
+      <p-button
+        severity="secondary"
+        (click)="onAddField()"
+        size="small"
+        variant="outlined"
+      >
+        Add field
+      </p-button>
+    </div>
+  </div>
+</form>
