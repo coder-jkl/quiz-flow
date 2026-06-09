@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { DefaultForm } from './features/builder/components/default-form/default-form';
+import { ParentForm } from './features/builder/components/parent-form/parent-form';
 
 export const routes: Routes = [
   {
     path: '',
-    component: DefaultForm,
+    component: ParentForm,
   }
 ];

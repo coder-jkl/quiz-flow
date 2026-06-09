@@ -1,1 +1,20 @@
-<p>parent-form works!</p>
+<form>
+  @for (form of forms.controls; track form) {
+    <app-default-form [fg]="form" (deleteFormEmit)="onDeleteForm(form)">
+      @if (!$last) {
+        <p-divider />
+      }
+    </app-default-form>
+  }
+
+  <div>
+    <p-button
+      severity="secondary"
+      (click)="onAddForm()"
+      size="small"
+      variant="outlined"
+    >
+      Add form
+    </p-button>
+  </div>
+</form>

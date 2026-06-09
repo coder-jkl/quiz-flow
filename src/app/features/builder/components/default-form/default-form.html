@@ -1,7 +1,25 @@
-<form class="form" title="Test" [formGroup]="fg">
+<div class="form" [formGroup]="fg()">
   <div class="form-header">
     <app-input formControlName="title" placeholder="Title"></app-input>
-    <app-button-tiered-menu [items]="buttonIconItems"></app-button-tiered-menu>
+    <div class="form-header-right">
+      @let customSeverity = isChange() ? 'success' : 'secondary';
+      @let customVariant = isChange() ? undefined : 'text';
+
+      <p-button
+        icon="pi pi-pencil"
+        [severity]="customSeverity"
+        [variant]="customVariant"
+        size="small"
+        (click)="isChange.set(!isChange())"
+      ></p-button>
+      <p-button
+        icon="pi pi-trash"
+        severity="secondary"
+        variant="text"
+        size="small"
+        (click)="onDeleteForm()"
+      ></p-button>
+    </div>
   </div>
 
   <div>
@@ -16,16 +34,23 @@
   </div>
 
   <div class="form-fields" formArrayName="fields">
-    @for (field of fields.controls; track $index) {
-      @let fieldError = field.errors | inputError: field.invalid && (field.dirty || field.touched);
+    @for (field of fields.controls; track field) {
+      @let isInvalid = field.invalid && (field.dirty || field.touched);
+      @let fieldError = field.errors | inputError: isInvalid;
+      @let fieldIndex = $index + 1;
 
       <div class="flex">
-        <app-input [formControl]="field" [errorText]="fieldError"></app-input>
+        <app-input
+          [formControl]="field"
+          [errorText]="fieldError"
+          [placeholder]="'Field ' + fieldIndex"
+        ></app-input>
 
         @if (isChange()) {
           <p-button
             icon="pi pi-trash"
             severity="secondary"
+            size="small"
             variant="text"
             (click)="onDeleteField($index)"
           ></p-button>
@@ -33,15 +58,17 @@
       </div>
     }
 
-    <div>
+    <div class="fields-button">
       <p-button
         severity="secondary"
         (click)="onAddField()"
         size="small"
         variant="outlined"
+        icon="pi pi-plus-circle"
       >
-        Add field
       </p-button>
     </div>
   </div>
-</form>
+</div>
+
+<ng-content select="p-divider"></ng-content>

@@ -1,15 +1,16 @@
 :host {
-  display: block;
-  margin: 0 auto;
-  max-width: 600px;
-  width: 100%;
-
   .form {
     &-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 10px;
+
+      &-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
       button {
       }
@@ -32,6 +33,10 @@
         app-input {
           width: 100%;
         }
+      }
+
+      .fields-button {
+        margin: 0 auto;
       }
     }
   }
