@@ -1,44 +1,42 @@
-import { Service } from '@angular/core';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
+import { computed } from '@angular/core';
 
-interface QuizForm {
+export interface Field {
+  value: string | null;
+  isAnswer: boolean;
+}
+
+export interface QuizForm {
   id: string;
-  title: string | null;
-  question: string | null;
-  fields: {
-    value: string | null;
-    isAnswer: boolean;
-  }[];
+  title: string;
+  question: string;
+  fields: Field[];
 }
 
-interface QuizState {
+export interface QuizState {
   forms: QuizForm[];
-  loading: boolean;
-  error: string | null;
 }
 
-const initialState: QuizState = {
+const initialQuizState: QuizState = {
   forms: [],
-  loading: false,
-  error: null,
 };
 
-// const quizFlowStore = createStore(
-//   { name: 'quiz-flow' },
-//   withProps<QuizState>(initialState)
-// );
-
-// @Service()
-// export class FormStore {
-//   public readonly forms$ = quizFlowStore.pipe(select((store) => {
-//     return store.forms;
-//   }));
-//
-//   public saveAllForms(forms: QuizForm[]): void {
-//     quizFlowStore.update((store) => {
-//       return {
-//         ...store,
-//         forms: forms,
-//       };
-//     })
-//   }
-// }
+export const quizFlowStore = signalStore(
+  { providedIn: 'root' },
+  withState(initialQuizState),
+  withComputed(({ forms }) => ({
+    getForms: computed(() => forms()),
+  })),
+  withMethods((store) => ({
+    saveAllForms(forms: QuizForm[]): void {
+      patchState(store, { forms });
+      console.log(forms);
+    },
+  }))
+);

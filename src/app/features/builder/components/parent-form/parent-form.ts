@@ -12,6 +12,7 @@ import { Divider } from 'primeng/divider';
 import { MessageService } from 'primeng/api';
 import { formsArrayValidator } from '../../../../shared/validators/form-builder.validator';
 import { markFormGroupTouched } from '../../../../core/helpers/touched-controls-recursion.helper';
+import { quizFlowStore } from '../../../../core/store/form.store';
 
 @Component({
   selector: 'app-parent-form',
@@ -20,7 +21,7 @@ import { markFormGroupTouched } from '../../../../core/helpers/touched-controls-
   styleUrl: './parent-form.scss',
 })
 export class ParentForm {
-  // private readonly store = inject(FormStore);
+  private readonly store = inject(quizFlowStore);
   private readonly message = inject(MessageService);
 
   public fg = new FormGroup({
@@ -66,7 +67,6 @@ export class ParentForm {
         summary: 'Forms is not valid',
       });
 
-      console.log(this.fg.errors);
       markFormGroupTouched(this.fg);
 
       return;
@@ -81,6 +81,6 @@ export class ParentForm {
       return;
     }
 
-    // this.store.saveAllForms(this.fg.value.forms as any);
+    this.store.saveAllForms(this.fg.value.forms as any);
   }
 }
