@@ -35,13 +35,22 @@
 
   <div class="form-fields" formArrayName="fields">
     @for (field of fields.controls; track field) {
-      @let isInvalid = field.invalid && (field.dirty || field.touched);
-      @let fieldError = field.errors | inputError: isInvalid;
+      @let fieldValue = $any(field.get('value'));
+      @let isInvalid = fieldValue.invalid && (fieldValue.dirty || fieldValue.touched);
+      @let fieldError = fieldValue.errors | inputError: isInvalid;
       @let fieldIndex = $index + 1;
+      @let isAnswerField = $any(field.get('isAnswer'));
 
       <div class="flex">
+          <p-radioButton
+            [name]="'answer-group-' + fg().get('id')?.value"
+            [value]="true"
+            [formControl]="isAnswerField"
+            (onClick)="onSelectCorrectAnswer($index)"
+          ></p-radioButton>
+
         <app-input
-          [formControl]="field"
+          [formControl]="fieldValue"
           [errorText]="fieldError"
           [placeholder]="'Field ' + fieldIndex"
         ></app-input>

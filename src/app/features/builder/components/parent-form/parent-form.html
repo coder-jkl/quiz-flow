@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="fg">
   @for (form of forms.controls; track form) {
     <app-default-form [fg]="form" (deleteFormEmit)="onDeleteForm(form)">
       @if (!$last) {
@@ -18,3 +18,11 @@
     </p-button>
   </div>
 </form>
+
+<p-button
+  severity="secondary"
+  variant="outlined"
+  size="small"
+  (click)="saveAllForms()"
+  >Save builder</p-button
+>
