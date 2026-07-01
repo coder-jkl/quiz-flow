@@ -10,8 +10,6 @@ import { DefaultForm } from '../default-form/default-form';
 import { Button } from 'primeng/button';
 import { Divider } from 'primeng/divider';
 import { MessageService } from 'primeng/api';
-import { formsArrayValidator } from '../../../../shared/validators/form-builder.validator';
-import { markFormGroupTouched } from '../../../../core/helpers/touched-controls-recursion.helper';
 import { quizFlowStore } from '../../../../core/store/form.store';
 
 @Component({
@@ -25,7 +23,7 @@ export class ParentForm {
   private readonly message = inject(MessageService);
 
   public fg = new FormGroup({
-    forms: new FormArray([this.createForm()], [formsArrayValidator()]),
+    forms: new FormArray([this.createForm()]),
   });
 
   private createForm(): FormGroup {
@@ -67,20 +65,17 @@ export class ParentForm {
         summary: 'Forms is not valid',
       });
 
-      markFormGroupTouched(this.fg);
-
-      return;
-    }
-
-    if (this.fg.value?.forms?.length === 0) {
-      this.message.add({
-        severity: 'error',
-        summary: 'You need to add one form for save builder',
-      });
+      this.fg.markAllAsTouched();
 
       return;
     }
 
     this.store.saveAllForms(this.fg.value.forms as any);
+
+    this.message.add({
+      severity: 'success',
+      summary: 'Forms saved successfully',
+      detail: 'Soon redirecting to the main page',
+    });
   }
 }

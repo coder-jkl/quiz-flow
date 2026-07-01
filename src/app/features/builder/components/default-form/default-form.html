@@ -1,6 +1,15 @@
 <div class="form" [formGroup]="fg()">
   <div class="form-header">
-    <app-input formControlName="title" placeholder="Title"></app-input>
+    @let titleValue = $any(fg().get('title'));
+    @let isInvalidTitle = titleValue.invalid && (titleValue.touched || titleValue.dirty);
+    @let titleError = titleValue.errors | inputError: isInvalidTitle;
+
+    <app-input
+      [formControl]="titleValue"
+      placeholder="Title"
+      [errorText]="titleError"
+    ></app-input>
+
     <div class="form-header-right">
       @let customSeverity = isChange() ? 'success' : 'secondary';
       @let customVariant = isChange() ? undefined : 'text';
@@ -22,15 +31,16 @@
     </div>
   </div>
 
-  <div>
-    <textarea
-      rows="5"
-      cols="30"
-      pTextarea
-      formControlName="question"
-      autoResize="true"
-      placeholder="Question"
-    ></textarea>
+  <div class="form-question">
+    @let questionValue = $any(fg().get('question'));
+    @let isInvalidQuestion = questionValue.invalid && (questionValue.dirty || questionValue.touched);
+    @let questionError = questionValue.errors | inputError : isInvalidQuestion;
+
+    <app-textarea
+    [errorText]="questionError"
+    placeholder="Questions"
+    [formControl]="questionValue"
+    ></app-textarea>
   </div>
 
   <div class="form-fields" formArrayName="fields">
@@ -42,12 +52,12 @@
       @let isAnswerField = $any(field.get('isAnswer'));
 
       <div class="flex">
-          <p-radioButton
-            [name]="'answer-group-' + fg().get('id')?.value"
-            [value]="true"
-            [formControl]="isAnswerField"
-            (onClick)="onSelectCorrectAnswer($index)"
-          ></p-radioButton>
+        <p-radioButton
+          [name]="'answer-group-' + fg().get('id')?.value"
+          [value]="true"
+          [formControl]="isAnswerField"
+          (onClick)="onSelectCorrectAnswer($index)"
+        ></p-radioButton>
 
         <app-input
           [formControl]="fieldValue"

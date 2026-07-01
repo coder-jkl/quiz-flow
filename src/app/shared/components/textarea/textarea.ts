@@ -6,28 +6,33 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
-import { InputText } from 'primeng/inputtext';
+import {
+  ControlValueAccessor,
+  FormsModule, NG_VALUE_ACCESSOR,
+  NgControl,
+  ReactiveFormsModule,
+} from '@angular/forms';
+import { Textarea } from 'primeng/textarea';
 import { Message } from 'primeng/message';
 
+
 @Component({
-  selector: 'app-input',
-  imports: [FormsModule, InputText, Message],
-  templateUrl: './input.html',
-  styleUrl: './input.scss',
+  selector: 'app-textarea',
+  imports: [FormsModule, ReactiveFormsModule, Textarea, Message],
+  templateUrl: './textarea.html',
+  styleUrl: './textarea.scss',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SharedInput),
+      useExisting: forwardRef(() => SharedTextarea),
       multi: true,
     },
   ],
 })
-export class SharedInput implements ControlValueAccessor, OnInit {
+export class SharedTextarea implements OnInit, ControlValueAccessor {
   public readonly placeholder = input('');
-  public readonly inputSize = input<'small' | 'large'>('small');
-  public readonly inputType = input('text');
-  public readonly inputVariant = input<'outlined' | 'filled'>('outlined');
+  public readonly textareaSize = input<'small' | 'large' | 'normal'>('normal');
+  public readonly textareaVariant = input<'outlined' | 'filled'>('outlined');
 
   public value = signal('');
   public readonly ngControl = inject(NgControl, {

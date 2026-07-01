@@ -1,0 +1,16 @@
+<textarea
+  rows="5"
+  cols="30"
+  pTextarea
+  [ngModel]="value()"
+  (ngModelChange)="onValueChange($event)"
+  autoResize="true"
+  [placeholder]="placeholder()"
+  [invalid]="!!errorText()"
+></textarea>
+
+@if (errorText()) {
+  <p-message severity="error" size="small" variant="simple">
+    {{ errorText() }}
+  </p-message>
+}

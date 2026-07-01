@@ -1,5 +1,4 @@
 import { Component, input, output, signal } from '@angular/core';
-import { Input } from '../../../../shared/components/input/input';
 import {
   FormArray,
   FormControl,
@@ -7,21 +6,22 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Textarea } from 'primeng/textarea';
 import { Button } from 'primeng/button';
 import { InputErrorPipe } from '../../../../shared/pipes/input-error-pipe';
 import { RadioButton } from 'primeng/radiobutton';
+import { SharedTextarea } from '../../../../shared/components/textarea/textarea';
+import { SharedInput } from '../../../../shared/components/input/input';
 
 @Component({
   selector: 'app-default-form',
   imports: [
-    Input,
     ReactiveFormsModule,
-    Textarea,
     Button,
     InputErrorPipe,
     RadioButton,
     FormsModule,
+    SharedTextarea,
+    SharedInput,
   ],
   templateUrl: './default-form.html',
   styleUrl: './default-form.scss',
